@@ -13,7 +13,12 @@ export default function HomeScreen( props ) {
     
   }
   function onSubmit (){
-      //getMoviesFromApiAsync(filmQuery+film)
+      if (typeof films !== 'undefined' && films.length>0){
+        return fetch(filmQueryById+films[0].imdbID)
+    .then((response) => response.json())
+    .then((response)=>{console.log(response);props.navigation.navigate('Result',{title: response.Title, description: response.Plot,
+    poster: response.Poster, year: response.Year, imdbRating: response.imdbRating, rated: response.Rated, type: response.Type, genre: response.Genre })})
+      }
   }
 
   const getMoviesFromApiAsync = (input) => {
@@ -41,7 +46,7 @@ export default function HomeScreen( props ) {
       
     />
     {typeof films !== 'undefined' && films.map(film=>{return (<FilmShortRes key={film.imdbID} film={film} onClick={()=>getFilmInfo(film)}/>)}) }
-      <Button color='darkseagreen'
+      <Button color='#9a1f40'
         title="Search"
         onPress={onSubmit}
       />
@@ -53,7 +58,7 @@ export default function HomeScreen( props ) {
 const styles= StyleSheet.create({
   container: {
    alignItems: 'stretch',
-   marginVertical: 30,
+   marginVertical: 100,
    marginHorizontal: 550,
    padding: 30,
    backgroundColor: 'rgba(223, 219, 219, 0.6)'
@@ -66,6 +71,7 @@ const styles= StyleSheet.create({
     marginBottom: 20 
   },
   screen: {
-    height: Dimensions.get('window').height
+    height: Dimensions.get('window').height,
+    margin: 0,
   }
 })
