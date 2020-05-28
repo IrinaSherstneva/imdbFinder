@@ -6,7 +6,7 @@ import FilmShortRes from './FilmShortRes'
 export default function HomeScreen( props ) {
 
   const filmQueryByTitle = 'http://www.omdbapi.com/?apikey=e8133543&s='
-  const filmQueryById = 'http://www.omdbapi.com/?apikey=e8133543&i='
+  const filmQueryById = 'http://www.omdbapi.com/?apikey=e8133543&plot=full&i='
   const [films,setFilms]=useState([])
   const onChangeText = (input)=>{
     getMoviesFromApiAsync(filmQueryByTitle+input)
