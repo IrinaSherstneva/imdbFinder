@@ -13,11 +13,13 @@ export default function HomeScreen( props ) {
     
   }
   function onSubmit (){
-      if (typeof films !== 'undefined' && films.length>0){
-        return fetch(filmQueryById+films[0].imdbID)
+      if (typeof(films) !== 'undefined' && films.length){
+    return fetch(filmQueryById+films[0].imdbID)
     .then((response) => response.json())
-    .then((response)=>{console.log(response);props.navigation.navigate('Result',{title: response.Title, description: response.Plot,
-    poster: response.Poster, year: response.Year, imdbRating: response.imdbRating, rated: response.Rated, type: response.Type, genre: response.Genre })})
+    .then((response)=>{props.navigation.navigate('Result',{title: response.Title, description: response.Plot,
+    poster: response.Poster, year: response.Year, imdbRating: response.imdbRating, rated: response.Rated, type: response.Type, 
+    genre: response.Genre })})
+    .catch((error) => {console.error(error)})
       }
   }
 
@@ -26,21 +28,20 @@ export default function HomeScreen( props ) {
     .then((response) => response.json())
     .then((json) => setFilms(json.Search))
     .catch((error) => {console.error(error)})
-    .then(()=>console.log(films))
 
   }
   const getFilmInfo=(film)=>{
-    console.log(film.imdbID)
     return fetch(filmQueryById+film.imdbID)
     .then((response) => response.json())
-    .then((response)=>{console.log(response);props.navigation.navigate('Result',{title: response.Title, description: response.Plot,
+    .then((response)=>{props.navigation.navigate('Result',{title: response.Title, description: response.Plot,
     poster: response.Poster, year: response.Year, imdbRating: response.imdbRating, rated: response.Rated, type: response.Type, genre: response.Genre })})
+    .catch((error) => {console.error(error)})
   }
 
   return (
     <ImageBackground style={styles.screen} source={require('../img/film.jpg')}>
-    <ScrollView contentContainerStyle={styles.container}>
-  <TextInput
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps={'handled'}>
+  <TextInput blurOnSubmit={true}
       style={styles.input}
       onChangeText={text => onChangeText(text)}
       
@@ -54,24 +55,28 @@ export default function HomeScreen( props ) {
     </ImageBackground>
   );
 }
-
+var {height, width} = Dimensions.get('window');
 const styles= StyleSheet.create({
   container: {
    alignItems: 'stretch',
-   marginVertical: 100,
-   marginHorizontal: 550,
+  //  marginVertical: 0.1*height,
+   width: 300,
    padding: 30,
-   backgroundColor: 'rgba(223, 219, 219, 0.6)'
+   backgroundColor: 'rgba(223, 219, 219, 0.8)',
+   borderRadius: 10
   },
   input: {
     height: 40,
-    
+    paddingLeft: 10,
     borderColor: 'gray', 
     borderWidth: 1, 
-    marginBottom: 20 
+    marginBottom: 20
   },
   screen: {
-    height: Dimensions.get('window').height,
+    // height: Dimensions.get('window').height,
+    paddingTop: 0.1*height,
+    flex: 1,
     margin: 0,
+    alignItems: 'center',
   }
 })

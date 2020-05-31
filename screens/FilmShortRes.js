@@ -3,9 +3,7 @@ import { Button, View,TouchableOpacity, Text, StyleSheet, Image } from 'react-na
 
 
 export default function ResultScreen(props) {
-    const onPress = ()=>{
-        console.log(props.film.imdbID)
-    }
+ 
     return (
         <TouchableOpacity
         style={styles.button}
@@ -22,9 +20,10 @@ const styles = StyleSheet.create({
       alignItems: "center",
       padding: 10,
       margin: 10,
-      width: 300,
+      // width: 300,
     },
     header: {
         fontWeight: 'bold',
+        textAlign: 'center'
     }
   });
